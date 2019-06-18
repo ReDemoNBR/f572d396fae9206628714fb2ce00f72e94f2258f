@@ -1,0 +1,11 @@
+# compressed files
+*.tar[.gz]
+*.zip
+*.7z
+
+# resources
+node_modules/
+
+# tmp files
+*.t[e]mp
+*\~

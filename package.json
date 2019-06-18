@@ -1,0 +1,32 @@
+{
+  "name": "f572d396fae9206628714fb2ce00f72e94f2258f",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReDemoNBR/f572d396fae9206628714fb2ce00f72e94f2258f.git"
+  },
+  "author": "San 'rdn' Mônico <san@monico.com.br>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/ReDemoNBR/f572d396fae9206628714fb2ce00f72e94f2258f/issues"
+  },
+  "homepage": "https://github.com/ReDemoNBR/f572d396fae9206628714fb2ce00f72e94f2258f#readme",
+  "engines": {
+    "node": ">=10.4.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "forest-express-sequelize": "^3.2.0",
+    "helmet": "^3.18.0",
+    "inflection": "^1.12.0",
+    "pg": "^7.11.0",
+    "sequelize": "^5.8.10"
+  }
+}

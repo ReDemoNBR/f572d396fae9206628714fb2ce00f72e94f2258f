@@ -1,0 +1,1 @@
+module.exports = worker => console.info(`worker ${worker.id} (${worker.process.pid}) forked`);
