@@ -15,11 +15,11 @@ const Sale = require("../db").define("sale", {
         allowNull: false,
         field: "user_id"
     },
-    productId: {
+    itemId: {
         type: DataTypes.BIGINT,
         primaryKey: true,
         allowNull: false,
-        field: "product_id"
+        field: "item_id"
     },
     price: {
         type: DataTypes.DOUBLE,

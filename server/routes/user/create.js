@@ -3,7 +3,7 @@ const hash = require("../../util/hash");
 
 module.exports = async (req, res, next) => {
     let {body: {login, password, firstName, lastName}} = req;
-    if (!login || !password) return res.status(400).send({message: "'login' and 'password' is required in request body"});
+    if (!login || !password) return res.status(400).send({message: "'login' and 'password' is required in POST body"});
     try {
         let exists = Boolean(await User.findOne({
             attributes: ["id"],

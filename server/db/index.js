@@ -16,8 +16,8 @@ User.hasMany(Sale, fk("userId"));
 Sale.belongsTo(User, fk("userId"));
 
 // Item -> Sale relation
-Sale.belongsTo(Item, fk("productId"));
-Item.hasMany(Sale, fk("productId"));
+Sale.belongsTo(Item, fk("itemId"));
+Item.hasMany(Sale, fk("itemId"));
 
 // User -> Auth relation
 Auth.belongsTo(User, fk("userId"));

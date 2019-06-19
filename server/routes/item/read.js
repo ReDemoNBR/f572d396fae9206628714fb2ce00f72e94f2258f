@@ -20,10 +20,9 @@ module.exports = async (req, res, next) => {
             where: {id},
             include: [{
                 model: Sale,
-                attributes: [],
-                required: true
+                attributes: []
             }],
-            group: ["id", "name", "alias", "description", "created", "updated"].map(col)
+            group: ["item.id", "item.name", "item.alias", "item.description", "item.created", "item.updated"].map(col)
         });
         if (!item) return res.status(404).send({message: "No item found"});
         item = item.toJSON();

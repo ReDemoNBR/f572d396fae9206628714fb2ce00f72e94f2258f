@@ -3,6 +3,7 @@ const {dasherize} = require("inflection");
 
 const update = instance => instance.alias = instance.alias || dasherize(instance.name.toLowerCase());
 
+// Item On Sale
 const Item = require("../db").define("item", {
     id: {
         type: DataTypes.BIGINT,
@@ -13,7 +14,6 @@ const Item = require("../db").define("item", {
     },
     name: {
         type: DataTypes.STRING,
-        primaryKey: true,
         allowNull: false
     },
     alias: {
@@ -23,10 +23,10 @@ const Item = require("../db").define("item", {
     description: DataTypes.TEXT
 }, {
     schema: "public",
-    tableName: "product"
+    tableName: "item"
 });
 
-
+Item.addHook("beforeValidate", update);
 Item.addHook("beforeBulkCreate", instances=>instances.forEach(update));
 Item.addHook("beforeBulkCreate", options=>options.individualHooks = true);
 Item.addHook("beforeCreate", update);
