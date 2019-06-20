@@ -1,0 +1,27 @@
+[Unit]
+Description="Service daemon to open an API server of the f572d... project"
+
+[Service]
+## Settings
+Type=simple
+ExecStart=/usr/bin/node server/index.js
+Restart=always
+RestartSec=500 msec
+
+## Paths
+WorkingDirectory=/var/srv/f572d
+
+## Credentials/Security/Sandbox
+User=f572d
+Group=f572d
+NoNewPrivileges=true
+ProtectSystem=true
+ProtectHome=true
+PrivateTmp=true
+PrivateUsers=true
+
+## Environment
+EnvironmentFile=/etc/f572d/env.conf
+
+[Install]
+WantedBy=multi-user.target

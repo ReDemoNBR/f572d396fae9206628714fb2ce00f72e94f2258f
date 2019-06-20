@@ -28,33 +28,96 @@ The user can put a registered item for sale specifying the quantity it has in st
 ## **REQUIREMENTS**
 -   `GNU/Linux` environment (only tested on kernel 5.1.11 on ArchLinux distribution)
 -   `Systemd` service and module manager v242.29 (production environment only)
--   `PostgreSQL` database cluster v11.2
+-   `PostgreSQL` database cluster v11.2 (if running the database in the same API host)
 -   `NodeJS` v11.15.0 runtime (should not run on versions lower than v10.4 due to `BigInt` native type usage)
 -   `NPM` v6.9.0
 
 
 ## **DATABASE MODEL**
+The modelling was created for a marketplace-ish plan where users can put a set of items for sale. The users
+can register any price and stock quantity they want. As the users can not change someone else's items for
+sale, an authentication table was created to store users access tokens.
 
 ### Auth Table
+Table that contains the access tokens for the users and a foreign key referencing the user it belongs to.  
+Besides the standard indexing, the table is also indexed by `user_id` to increase performance when joining
+to [**user table**](#user-table)
 
 ### Item Table
+Table that contains the items that the marketplace allows users to sell.  
+The `description` column is totally optional as it allows `NULL` values. Even though the `alias` column is
+does not allow `NULL`s, the value is optional as there are **Sequelize** hooks to auto-generate an alias
+based on the value of the column `name` (a lowercase dasherized version of the name).
 
 ### Sale Table
+Container table of the items for sale by the users. Basically it must contain the reference to the
+[user](#user-table) which put it for sale and the [item](#item-table) which (s)he is trying to sell. Also,
+there must be a quantity the user has of this item in stock and the price he wants per unit.
 
 ### User Table
+The table that has the users. The column `login` has the unique login identification of the user and
+the `password` column has the `SHA3-512` encrypted for authentication.  
+The password is stored encrypted for security and moral purposes. Security because it is a sensible and
+private data of the user, and the [digestion algorithm](https://en.wikipedia.org/wiki/Cryptographic_hash_function)
+makes it, practically, impossible to convert it back. It also contains `NULL`-able (optional)
+fields: `first_name` and `last_name` that can be used to customize the user experiece.
 
 ### Forest Admin Usage
-
+[Forest Admin](https://forestadmin.com) is a CMS (Content Management Software) to manage databases. With
+this CMS it is easier to do **CRUD** operations without using literal SQL. The interface should be pretty
+much straight-forward and require no help in usage due to its auto-explainatory UI.
 
 ## **API ROUTES**
 Read the API usage docs. [API Docs](API.md)
 
 
 ## **EXECUTION**
+To execute in any support environment, please check if the requirements are met.
 
 ### Development Environment
+_This tutorial considers that you will use the default configuration options. If you want to change_
+_the configuration, read the [Environment Variables](#environment-variables) session_
+
+First of all, check if the database service is running and if the user `admin` is created with
+password `admin`. Also, the database `77f12a` must exists before starting the server, otherwise the
+**Sequelize** library will not be able to connect to it using these values.  
+To execute it:
+```shell
+node server/index.js
+```
+It will open a HTTP server and listen to communications in the port `4424`
+
 
 ### Production Environment
+This tutorial considers you:
+-   Have an user named `f572d` with no `sudo` privileges and member of the group `f572d`
+-   Have this project working and located in `/var/srv/f572d` with permissions set to `600` and owned
+by user `f572d`
+-   Have a copy of the Systemd service daemon (provided in `./systemd/f572d.service`) in the Systemd correct path
+(in ArchLinux, it should be in `/usr/lib/systemd/system/f572d.service`, but in other distros it may vary) and
+owned by `root` user
+-   Have your environment configuration file with the [environment variables](#environment-variables) correctly
+set in the path `/etc/f572d/env.conf` with permissions set to `600` and owned by user `f572d`
+
+Use the Systemd commands to control the Systemd module. To start it:
+```shell
+systemctl start f572d.service
+
+## Enable it, so it automatically starts after system reboots
+systemctl enable f572d.service
+```
+
+To stop it:
+```shell
+systemctl stop f572d.service
+
+## If you have enabled it, disable it
+## Otherwise it will automatically start after system reboots
+systemctl disable f572d.service
+```
+
+For more information about systemd modules and how to use it, RTFM.
+
 
 ## **ENVIRONMENT VARIABLES**
 The environment variables are like the remote control of the API service. The variables here are the ones that are
@@ -81,6 +144,7 @@ error. Defaults to `60000`
 connections. Defaults to `10000`
 -   **API SERVICE CONFIGURATION**
     -   **SERVER_API_PORT**: Server API port to listen. Defaults to `4424`
+    -   **TRUST_PROXY**: Whether or not to trust the proxy server. Set to `true` or `false`. Defaults to `false`
     -   **API_HEADER_NAME**: Server API header name for identifying the Server API version. Defaults
 to `X-Custom-Header-Version`
     -   **API_HEADER_VALUE**: Server API header value for identifying the Server API version. This value should
