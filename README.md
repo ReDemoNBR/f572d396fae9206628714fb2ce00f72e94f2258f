@@ -26,7 +26,7 @@ The user can put a registered item for sale specifying the quantity it has in st
 
 
 ## **REQUIREMENTS**
--   `GNU/Linux` environment (only tested on kernel 5.1.11 on ArchLinux distribution)
+-   `GNU/Linux` or `Android/Termux` environment (only tested on kernel 5.1.11 on ArchLinux and Android 9.0)
 -   `Systemd` service and module manager v242.29 (production environment only)
 -   `PostgreSQL` database cluster v11.2 (if running the database in the same API host)
 -   `NodeJS` v11.15.0 runtime (should not run on versions lower than v10.4 due to `BigInt` native type usage)

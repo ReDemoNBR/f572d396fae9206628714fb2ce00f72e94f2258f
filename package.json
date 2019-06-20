@@ -4,6 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,11 +20,15 @@
   "engines": {
     "node": ">=10.4.0"
   },
+  "os": [
+    "linux",
+    "android"
+  ],
   "dependencies": {
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "forest-express-sequelize": "^3.2.0",
+    "forest-express-sequelize": "^3.2.1",
     "helmet": "^3.18.0",
     "inflection": "^1.12.0",
     "pg": "^7.11.0",
